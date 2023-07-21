@@ -1,0 +1,41 @@
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.detail img {
+    width: 80%;
+    height: 40vw;
+    object-fit: cover;
+}
+
+.detail {
+    text-align: center;
+    
+}
+
+.card-text {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+}
+
+.card-title {
+    font-size: 1em;
+}
+
+.card-a  {
+    text-align: center;
+}
+
+.img_update {
+    height: 300px;
+    width: 400px;
+}
+
+.img_update > img {
+    width: 80%;
+    height: 18vw;
+    object-fit: cover;
+}
+
