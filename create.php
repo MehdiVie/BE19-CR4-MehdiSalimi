@@ -7,10 +7,11 @@
 
     if (isset($_POST['create'])) {
 
-        foreach($_POST as $value) {
-            str_replace("'", "''",$_POST[$key]);
-            str_replace('"', '""',$_POST[$key]);
-          }
+        foreach($_POST as $key => $value) {
+            //$_POST[$key] = str_replace(array('\\', "\0", "\n", "\r", "'", '"', "\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'), $_POST[$key]);
+            $_POST[$key] = mysqli_real_escape_string($connect, $_POST[$key]);
+            $_POST[$key] = trim($_POST[$key]);
+        }
 
         $title = $_POST['title'];
         $isbn = $_POST['isbn'];
@@ -61,24 +62,24 @@
     ?>
     <?= $layout ?>
     <div class="container mt-5">
-        <h2>Create a new MEDIA</h2>
+        <h2 class="text-primary">Create a new MEDIA</h2>
         <form method="POST" enctype= "multipart/form-data">
             <div class="mb-3 mt-3 w-50">
                 <label for="title" class= "form-label">Title</label>
-                <input  type="text" class="form-control" id="title" aria-describedby="title" name="title" required>
+                <input  type="text" class="form-control  border-primary" id="title" aria-describedby="title" name="title" required>
             </div>
             <div class="mb-3 w-50">
                 <label for="isbn" class="form-label">ISBN</label>
-                <input type="text"  class="form-control"  id="isbn"  aria-describedby="isbn"  name="isbn" required>
+                <input type="text"  class="form-control  border-primary"  id="isbn"  aria-describedby="isbn"  name="isbn" required>
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="description" class= "form-label">Description</label>
-                <textarea class="form-control" id="description" aria-describedby="description" name="description"
-                 style="height: 150px" placeholder="write description here!" maxlength="500" required></textarea>
+                <textarea class="form-control  border-primary" id="description" aria-describedby="description" name="description"
+                 style="height: 150px" placeholder="write description here!" maxlength="1000" required></textarea>
             </div>
             <div class="mb-3 w-50">
                 <label for="media_type" class="form-label">Media Type</label>
-                <select class="form-select" id="media_type" aria-describedby="media_type" name="media_type">
+                <select class="form-select  border-primary" id="media_type" aria-describedby="media_type" name="media_type">
                     <option value="book" selected>book</option>
                     <option value="CD">CD</option>
                     <option value="DVD">DVD</option>
@@ -86,29 +87,29 @@
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="author_first_name" class= "form-label">Author Firstname</label>
-                <input  type="text" class="form-control" id="author_first_name" aria-describedby="author_first_name" name="author_first_name" required>
+                <input  type="text" class="form-control  border-primary" id="author_first_name" aria-describedby="author_first_name" name="author_first_name" required>
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="author_last_name" class= "form-label">Author Lastname</label>
-                <input  type="text" class="form-control" id="author_last_name" aria-describedby="author_last_name" name="author_last_name" required>
+                <input  type="text" class="form-control  border-primary" id="author_last_name" aria-describedby="author_last_name" name="author_last_name" required>
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="publisher_name" class= "form-label">Publisher Name</label>
-                <input  type="text" class="form-control" id="publisher_name" aria-describedby="publisher_name" name="publisher_name" required>
+                <input  type="text" class="form-control  border-primary" id="publisher_name" aria-describedby="publisher_name" name="publisher_name" required>
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="publisher_address" class= "form-label">Publisher Address</label>
-                <textarea class="form-control" id="publisher_address" aria-describedby="publisher_address" name="publisher_address"
-                style="height: 100px" placeholder="write publisher address here!" maxlength="300" required></textarea>
+                <textarea class="form-control  border-primary" id="publisher_address" aria-describedby="publisher_address" name="publisher_address"
+                style="height: 100px" placeholder="write publisher address here!" maxlength="400" required></textarea>
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="publish_date" class= "form-label">Publish Date</label>
-                <input  type="text" class="form-control" id="publish_date" aria-describedby="publish_date" name="publish_date"
+                <input  type="text" class="form-control  border-primary" id="publish_date" aria-describedby="publish_date" name="publish_date"
                 placeholder="YYYY-MM-DD" required>
             </div>
             <div class="mb-3 w-50">
                 <label for="status" class="form-label">Media Type</label>
-                <select class="form-select" id="media_type" aria-describedby="status" name="status">
+                <select class="form-select  border-primary" id="media_type" aria-describedby="status" name="status">
                     <option value="available" selected>available</option>
                     <option value="reserved">reserved</option>
                     <option value="suspend">suspend</option>
@@ -116,7 +117,7 @@
             </div>
             <div class="mb-3 w-50">
                 <label for="picture" class="form-label">picture</label>
-                <input type = "file" class="form-control" id="picture" aria-describedby="picture"   name="picture">
+                <input type = "file" class="form-control  border-primary" id="picture" aria-describedby="picture"   name="picture">
             </div>
             <button name="create" type="submit" class="btn btn-primary">Create Media</button>
             <a href="index.php" class="btn btn-warning">Back to home page</a>

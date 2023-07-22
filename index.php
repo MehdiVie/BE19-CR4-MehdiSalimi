@@ -22,7 +22,7 @@
             $layout .= "
             <div class='card' style='width: 25rem;'>
             
-            <img class='card-img-top' src='images/{$row['image']}' alt='Card image cap'>
+            <img class='card-img-top' src='photos/{$row['image']}' alt='Card image cap'>
             
             <div class='card-body'>
               
@@ -56,8 +56,8 @@
               }
               */
             $layout .="<div class='d-flex justify-content-between'>
-            <a href='index.php?detail={$row['id']}#detail' class='btn btn-primary'>Show Detail</a>
-            <a href='update.php?detail={$row['id']}' class='btn btn-warning'>Update Dish</a>
+            <a href='details.php?detail={$row['id']}#detail' class='btn btn-primary'>Show Detail</a>
+            <a href='update.php?detail={$row['id']}' class='btn btn-warning'>Update Media</a>
             <a href='delete.php?detail={$row['id']}' class='btn btn-danger'>Delete Dish</a>
             </div>
               </div>
