@@ -3,46 +3,79 @@
     require_once  "fileUpload.php"; 
 
     $layout = "";
-        
 
-    if (isset($_POST['create'])) {
+    $name = "";
+    $price = 0;
+    $ingridients = "";
+    $picture = "";
+    $id=0;
 
-        foreach($_POST as $value) {
-            str_replace("'", "''",$_POST[$key]);
-            str_replace('"', '""',$_POST[$key]);
-          }
+    if (isset($_GET['detail'])) {
 
-        $title = $_POST['title'];
-        $isbn = $_POST['isbn'];
-        $type = $_POST['media_type'];
-        $short_description = $_POST['$description'];
-        $author_first_name = $_POST['author_first_name'];
-        $author_last_name = $_POST['author_last_name'];
-        $publisher_name = $_POST['publisher_name'];
-        $publisher_address = $_POST['publisher_address'];
-        $publish_date = $_POST['publish_date'];
-        $status = $_POST['status'];
-        $picture = fileUpload($_FILES['picture']);
+        $id = $_GET['detail'];
 
-        $sql = "INSERT INTO `media`(`title`, `image`, `ISBN_code`, `short_description`, `type`, `author_first_name`, `author_last_name`, `publisher_name`, `publisher_address`, `publish_date`, `status`) VALUES 
-        ('$title','$picture[0]','$isbn','$short_description','$type','$author_first_name','$author_last_name','$publisher_name','$publisher_address','$publish_date','$status')" ;
+    } 
+    /*else if (isset($_POST['update'])) {
 
+        $id = $_GET['update_id'];
+
+    }*/
+    
+    $sql = "select * from media where id =".$id;
+
+    $result = mysqli_query($connect,$sql);
+
+    $row = mysqli_fetch_assoc($result);
+
+    $title = $row['title'];
+    $isbn = $row['isbn'];
+    $type = $row['media_type'];
+    $short_description = $row['$description'];
+    $author_first_name = $row['author_first_name'];
+    $author_last_name = $row['author_last_name'];
+    $publisher_name = $row['publisher_name'];
+    $publisher_address = $row['publisher_address'];
+    $publish_date = $row['publish_date'];
+    $status = $row['status'];
+    $picture = $row['image'];
+    $id = $row['id'];
+
+    if (isset($_POST['update'])) {
+
+        $name = $_POST['name'];
+        $price = number_format($_POST['price'],2);
+        $ingridients = $_POST['ingridients'];
+        $picture_new = fileUpload($_FILES['picture']);
+
+
+        if ($_FILES["picture"]["error"] == 0 ) {
+
+            if($picture != "default.jpg") {
+                unlink("photos/{$picture}");
+            }
+            
+            $sql = "update dishes set name='$name', price = $price , image ='$picture_new[0]' , ingridients = '$ingridients' where dish_id = $id " ;
+            $picture = $picture_new[0];
+
+        } else {
+            $sql = "update dishes set name='$name', price = $price , ingridients = '$ingridients' where dish_id = $id " ;
+        }
 
         if (mysqli_query($connect, $sql)) {
 
             $layout = "<div class='alert alert-success' role='alert'>
-            New Media has been created! , {$picture[1]}
+            Dish has been updated! , {$picture_new[1]}
             </div>";
+            
             header("refresh : 3 , url = index.php");
 
         } else {
+            
+
             $layout = "<div class='alert alert-danger' role='alert'>
-            New Media has NOT been created! , {$picture[1]}
+            Dish has NOT been updated! , {$picture_new[1]}
             </div>";
         }
-
-
-
 
     } 
 ?>
@@ -61,57 +94,58 @@
     ?>
     <?= $layout ?>
     <div class="container mt-5">
-        <h2>Create a new MEDIA</h2>
+        <h2>Update a Dish</h2>
         <form method="POST" enctype= "multipart/form-data">
-            <div class="mb-3 mt-3 w-50">
+        <div class="mb-3 mt-3 w-50">
                 <label for="title" class= "form-label">Title</label>
-                <input  type="text" class="form-control" id="title" aria-describedby="title" name="title" required>
+                <input  type="text" class="form-control" id="title" aria-describedby="title" name="title" value="<?=$title?>" required>
             </div>
             <div class="mb-3 w-50">
                 <label for="isbn" class="form-label">ISBN</label>
-                <input type="text"  class="form-control"  id="isbn"  aria-describedby="isbn"  name="isbn" required>
+                <input type="text"  class="form-control"  id="isbn"  aria-describedby="isbn"  name="isbn" value="<?=$isbn?>" required>
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="description" class= "form-label">Description</label>
                 <textarea class="form-control" id="description" aria-describedby="description" name="description"
-                 style="height: 150px" placeholder="write description here!" maxlength="500" required></textarea>
+                 style="height: 150px" placeholder="write description here!" maxlength="500" value="<?=$short_description?>" required></textarea>
             </div>
             <div class="mb-3 w-50">
                 <label for="media_type" class="form-label">Media Type</label>
                 <select class="form-select" id="media_type" aria-describedby="media_type" name="media_type">
-                    <option value="book" selected>book</option>
-                    <option value="CD">CD</option>
-                    <option value="DVD">DVD</option>
+                    <option value="book" <?php if ($type == "book" ) { echo "selected";}?>>book</option>
+                    <option value="CD"   <?php if ($type == "CD" ) { echo "selected";}?>>CD</option>
+                    <option value="DVD"  <?php if ($type == "DVD" ) { echo "selected";}?>>DVD</option>
                 </select>
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="author_first_name" class= "form-label">Author Firstname</label>
-                <input  type="text" class="form-control" id="author_first_name" aria-describedby="author_first_name" name="author_first_name" required>
+                <input  type="text" class="form-control" id="author_first_name" aria-describedby="author_first_name" name="author_first_name" value="<?=$author_first_name?>" required>
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="author_last_name" class= "form-label">Author Lastname</label>
-                <input  type="text" class="form-control" id="author_last_name" aria-describedby="author_last_name" name="author_last_name" required>
+                <input  type="text" class="form-control" id="author_last_name" aria-describedby="author_last_name" name="author_last_name" value="<?=$author_last_name?>" required>
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="publisher_name" class= "form-label">Publisher Name</label>
-                <input  type="text" class="form-control" id="publisher_name" aria-describedby="publisher_name" name="publisher_name" required>
+                <input  type="text" class="form-control" id="publisher_name" aria-describedby="publisher_name" name="publisher_name" 
+                value="<?=$publisher_name?>" required>
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="publisher_address" class= "form-label">Publisher Address</label>
                 <textarea class="form-control" id="publisher_address" aria-describedby="publisher_address" name="publisher_address"
-                style="height: 100px" placeholder="write publisher address here!" maxlength="300" required></textarea>
+                value="<?=$publisher_address ?>" style="height: 100px" placeholder="write publisher address here!" maxlength="300" required></textarea>
             </div>
             <div class="mb-3 mt-3 w-50">
                 <label for="publish_date" class= "form-label">Publish Date</label>
                 <input  type="text" class="form-control" id="publish_date" aria-describedby="publish_date" name="publish_date"
-                placeholder="YYYY-MM-DD" required>
+                value="<?=$publish_date ?>" placeholder="YYYY-MM-DD" required>
             </div>
             <div class="mb-3 w-50">
                 <label for="status" class="form-label">Media Type</label>
                 <select class="form-select" id="media_type" aria-describedby="status" name="status">
-                    <option value="available" selected>available</option>
-                    <option value="reserved">reserved</option>
-                    <option value="suspend">suspend</option>
+                    <option value="available" <?php if ($type == "available" ) { echo "selected";}?>>available</option>
+                    <option value="reserved"  <?php if ($type == "reserved" ) { echo "selected";}?>>reserved</option>
+                    <option value="suspend"   <?php if ($type == "suspend" ) { echo "selected";}?>>suspend</option>
                 </select>
             </div>
             <div class="mb-3 w-50">

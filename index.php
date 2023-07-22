@@ -31,7 +31,7 @@
               <p class='card-text'>Type:  {$row['type']}</p>
               
               <p class='card-text'>";
-              $layout .= substr($row['short_description'],0,120);
+              $layout .= substr($row['short_description'],0,120)."...";
               $layout .= "</p>";
               /*
               if ($detail_id == $row['id']) {
