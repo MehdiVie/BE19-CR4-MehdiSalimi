@@ -16,7 +16,7 @@
         $title = $_POST['title'];
         $isbn = $_POST['isbn'];
         $type = $_POST['media_type'];
-        $short_description = $_POST['$description'];
+        $short_description = $_POST['description'];
         $author_first_name = $_POST['author_first_name'];
         $author_last_name = $_POST['author_last_name'];
         $publisher_name = $_POST['publisher_name'];
@@ -52,7 +52,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Dish</title>
+    <title>Library - Create new Media</title>
     <link rel="stylesheet" href="css/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"  rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"  crossorigin="anonymous">
 </head>

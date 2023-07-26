@@ -33,32 +33,10 @@
               <p class='card-text'>";
               $layout .= substr($row['short_description'],0,120)."...";
               $layout .= "</p>";
-              /*
-              if ($detail_id == $row['id']) {
-                $detail .="
-                <a name='detail'>
-                <div>
-                <img src='photos/{$row['image']}'  >
-                <div>
-                <div>
-                <h5 class='card-title'>{$row['name']}</h5>
-                <p class='card-text'>Price : {$row['price']}$</p>
-                <br>
-                <p class='card-text'>Ingridients:<br>";
-                
-                $detail .= $row['ingridients'];
-
-                $detail .="</p>
-                
-                <a href='index.php' class='btn btn-primary'>Show MainPage</a>
-                </div>
-                ";
-              }
-              */
             $layout .="<div class='d-flex justify-content-between'>
             <a href='details.php?detail={$row['id']}#detail' class='btn btn-primary'>Show Detail</a>
             <a href='update.php?detail={$row['id']}' class='btn btn-warning'>Update Media</a>
-            <a href='delete.php?detail={$row['id']}' class='btn btn-danger'>Delete Dish</a>
+            <a href='delete.php?detail={$row['id']}' class='btn btn-danger'>Delete Media</a>
             </div>
               </div>
           </div>";
@@ -75,7 +53,7 @@
     <head>
        <meta charset="utf-8">
        <meta name="viewport" content="width=device-width, initial-scale=1">
-       <title>Restaurant</title>
+       <title>Library</title>
        <link rel="stylesheet" href="css/main.css">
        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"  rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"  crossorigin="anonymous">
     </head>

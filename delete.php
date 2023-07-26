@@ -3,6 +3,11 @@
     require_once  "fileUpload.php"; 
 
     $layout = "";
+
+    $name = "";
+    $price = 0;
+    $ingridients = "";
+    $picture = "";
     $id=0;
 
     if (isset($_GET['detail'])) {
@@ -10,7 +15,8 @@
         $id = $_GET['detail'];
 
     } 
-    
+
+
     $sql = "select * from media where id =".$id;
     $result = mysqli_query($connect,$sql);
     $row = mysqli_fetch_assoc($result);
@@ -28,30 +34,51 @@
     $picture = $row['image'];
     $id = $row['id'];
 
+    if (isset($_POST['delete'])) {
+            
+        $sql = "delete from media where id = $id " ;
+            
+        if (mysqli_query($connect, $sql)) {
+
+            if($picture != "default.jpg") {
+                unlink("photos/{$picture}");
+            }
+            
+            $layout = "<div class='alert alert-success' role='alert'>
+            Media has been deleted! 
+            </div>";
+            header("refresh : 2 , url = index.php");
+        } else {
+            
+
+            $layout = "<div class='alert alert-danger' role='alert'>
+            Media has NOT been deleted!
+            </div>";
+        }
+
+    } 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library - Details</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"  rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"  crossorigin="anonymous">
+    <title>Library - Delete</title>
     <link rel="stylesheet" href="css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"  rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"  crossorigin="anonymous">
 </head>
 <body>
     <?php
         include  "navbar.html"; 
     ?>
     <?= $layout ?>
-    <div class="container mt-3">
+    <div class="container mt-5">
     <div class="wrapper">
 
     <div class="box">
 
-        <h2 class="text-primary">Detail Media</h2>
-
-        
+        <h2>Delete Meida</h2>
+        <form method="POST" >
         <div class="mb-3 mt-3 w-50">
                 <label for="title" class= "form-label">Title</label>:<br>
                 <?=$title?>
@@ -93,12 +120,13 @@
                 <?=$status ?>
                 </select>
             </div>
+            <button name="delete" type="submit" class="btn btn-primary">Delete Media</button>
             <a href="index.php" class="btn btn-warning">Back to home page</a>
-        
-    </div>
+        </form>
+        </div>
 
     <div class="box img_box">
-            <img src="photos/<?=$picture?>" alt="">
+        <img src="photos/<?=$picture?>" alt="">
     </div>
 
     </div>

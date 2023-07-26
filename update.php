@@ -93,8 +93,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update</title>
-    <link rel="stylesheet" href="css/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"  rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"  crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <?php
@@ -105,7 +105,7 @@
     <div class="wrapper">
     <div class="box">
 
-        <h2 class="text-primary">Update Media</h2>
+        <h2 class="text-primary">Library - Update Media</h2>
 
         <form method="POST" enctype= "multipart/form-data" id="update_form">
         <div class="mb-3 mt-3 w-90">
